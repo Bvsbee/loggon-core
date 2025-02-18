@@ -1,5 +1,6 @@
 import { ConfigModule } from '@nestjs/config';
 import { DataSourceOptions } from 'typeorm';
+import { User } from './user/user.entity';
 
 ConfigModule.forRoot();
 
@@ -11,5 +12,5 @@ export const databaseConfig: DataSourceOptions = {
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_NAME || 'loggon_db',
   synchronize: true,
-  entities: ['src/entities/*.ts'],
+  entities: [User],
 };
