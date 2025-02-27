@@ -14,4 +14,3 @@ import { UserService } from './user/user.service';
 })
 export class AppModule {}
 
-//Monkey Brain prevented me from pushing/pulling, my bad mike lol
