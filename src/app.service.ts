@@ -57,7 +57,7 @@ export class Product {
   updatedAt: Date;
 
   }
-  
+
 export class AppService {
   
   getHello(): string {
@@ -72,4 +72,4 @@ export class AppService {
 
 
 
-}
+
