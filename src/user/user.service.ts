@@ -5,6 +5,7 @@ import { CreateUserDto } from './Data-Transfer-Objects/CreateUserDto';
 import * as bcrypt from 'bcrypt'
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
+import { v4 as uuidv4 } from 'uuid'; 
 
 @Injectable()
 export class UserService {
@@ -14,7 +15,7 @@ export class UserService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
+  async create(@Body() createUserDto: CreateUserDto): Promise<{userId: string; token: string}> {
     const { email, password } = createUserDto;
 
     const checkExistingUser = await this.userRepository.findOne({ where: { email }});
@@ -25,8 +26,12 @@ export class UserService {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = this.userRepository.create({
+      id: uuidv4(),
       email, 
       passwordHash: hashedPassword,
+      isAdmin: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
     
     await this.userRepository.save(user);
