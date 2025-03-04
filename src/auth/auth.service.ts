@@ -35,4 +35,5 @@ export class AuthService {
         userId: user.id,
         token,
       };
+
 }}

@@ -8,16 +8,20 @@ import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(databaseConfig), UsersModule, ConfigModule.forRoot(), 
+  imports: [
+    TypeOrmModule.forRoot(databaseConfig),
+    UsersModule,
+    ConfigModule.forRoot(),
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'secret-key',
-      signOptions: {expiresIn: '1 hour'},
-    })],
+      signOptions: { expiresIn: '1 hour' },
+    }),
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
-
