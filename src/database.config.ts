@@ -1,6 +1,7 @@
 import { ConfigModule } from '@nestjs/config';
 import { DataSourceOptions } from 'typeorm';
 import { User } from './user/user.entity';
+//import { Product } from './product/product.entity';
 
 ConfigModule.forRoot();
 

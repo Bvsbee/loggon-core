@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 @Injectable()
 @Entity()
@@ -58,14 +60,47 @@ export class Product {
 
   }
 
+export class productImage {
+    @PrimaryColumn('primage')
+    id: number;
+
+    @Column()
+    name: string;
+
+    @Column()
+    datacreated: Date;
+
+    @Column()
+    dateUpdated: Date;
+
+}
+
 export class AppService {
-  
-  getHello(): string {
-    return 'Hello World!';
+
+  constructor(
+  @InjectRepository(productImage)
+  private readonly imageRepository: Repository<productImage>,
+  ){}
+
+  async getImages(): Promise<productImage[]>{
+    return this.imageRepository.find();
+  }
+
+  async createImages(image: productImage): Promise<productImage>{
+    return this.imageRepository.save(image);
+  }
+
+  async getImage(id: number): Promise<productImage>{
+    return this.imageRepository.findOneBy({id});
+  }
+
+  async deleteImage(id: number): Promise<void>{
+    await this.imageRepository.delete(id);
   }
 
 
  
+
 }
 
  
