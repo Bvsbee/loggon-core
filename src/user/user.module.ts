@@ -9,7 +9,7 @@ import { AuthModule } from 'src/auth/auth.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
-    JwtModule.register({}),
+    JwtModule,
     AuthModule,
   ],
   providers: [UserService, JwtService],

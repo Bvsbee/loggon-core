@@ -15,6 +15,7 @@ export class AuthService {
         private readonly jwtService: JwtService,
     ) {}
 
+    //login method which authenticas a user and assigns jwt token
     async login(loginDto: LoginDto): Promise<{ userId: string; token: string }> {
         const { email, password } = loginDto;
 
@@ -36,4 +37,19 @@ export class AuthService {
         token,
       };
 
-}}
+}
+
+//verifies if a user exists by ID
+async validateUser(userId: string): Promise<any> {
+    const user = await this.userRespository.findOne({
+        where: { id: userId }
+    });
+
+    if (!user) {
+        throw new UnauthorizedException('User Not Found');
+    }
+
+    return user;
+}
+}
+

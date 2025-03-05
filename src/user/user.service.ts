@@ -3,6 +3,7 @@ import {
   ConflictException,
   Inject,
   Injectable,
+  NotFoundException,
   Param,
 } from '@nestjs/common';
 import { User } from './user.entity';
@@ -33,10 +34,12 @@ export class UserService {
       throw new ConflictException('Email already in use!');
     }
 
+    //Hashes password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    //Creates new user entity
     const user = this.userRepository.create({
-      id: uuidv4(),
+      id: uuidv4(), //unique uuid
       email,
       firstName,
       lastName,
@@ -46,13 +49,37 @@ export class UserService {
       updatedAt: new Date(),
     });
 
+    //saves user to database
     await this.userRepository.save(user);
 
-    const token = this.jwtService.sign({ userId: user.id });
+    //creates jwt payload with user info
+    const payload = {
+      userId: user.id,
+      email: user.email,
+      isAdmin: user.isAdmin
+    }
+
+    //generates jwt token
+    const token = this.jwtService.sign({payload});
 
     return {
       userId: user.id,
       token,
     };
+  }
+
+  //method to retrieve user by id
+  async findOne(userId: string): Promise<any>{
+    const user = await this.userRepository.findOne({
+      where: {id:userId},
+    });
+
+    if(!user){
+      throw new NotFoundException('User Not Found')
+    }
+
+    //removes passwordhash from response for security
+    const {passwordHash, ...result} = user;
+    return result;
   }
 }
