@@ -71,9 +71,9 @@ export class UserService {
   }
 
   //method to retrieve user by id
-  async findOne(userId: string): Promise<any> {
+  async findOne(userEmail: string): Promise<any> {
     const user = await this.userRepository.findOne({
-      where: { id: userId },
+      where: { email: userEmail },
     });
 
     if (!user) {
