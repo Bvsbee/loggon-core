@@ -7,8 +7,8 @@ import { UsersModule } from './user/user.module';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
 import { ConfigModule } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
 import { AuthModule } from './auth/auth.module';
+import { JwtModule } from './jwt/jwt.module';
 
 @Module({
   imports: [
@@ -17,10 +17,11 @@ import { AuthModule } from './auth/auth.module';
     }),
     TypeOrmModule.forRoot(databaseConfig),
     UsersModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET || 'secret-key',
-      signOptions: { expiresIn: '1 hour' },
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
     }),
+    JwtModule,
     AuthModule,
   ],
   controllers: [AppController],
