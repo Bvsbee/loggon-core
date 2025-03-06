@@ -12,9 +12,11 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot(databaseConfig),
     UsersModule,
-    ConfigModule.forRoot(),
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'secret-key',
       signOptions: { expiresIn: '1 hour' },
