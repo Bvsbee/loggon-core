@@ -23,7 +23,7 @@ export class UserService {
   ) {}
 
   async create(
-    @Body() createUserDto: CreateUserDto,
+    createUserDto: CreateUserDto,
   ): Promise<{ userId: string; token: string }> {
     const { email, password, firstName, lastName } = createUserDto;
 
@@ -56,11 +56,13 @@ export class UserService {
     const payload = {
       userId: user.id,
       email: user.email,
-      isAdmin: user.isAdmin
-    }
+      isAdmin: user.isAdmin,
+    };
 
     //generates jwt token
-    const token = this.jwtService.sign({payload});
+    const token = this.jwtService.sign(payload, {
+      secret: process.env.JWT_SECRET,
+    });
 
     return {
       userId: user.id,
@@ -69,17 +71,17 @@ export class UserService {
   }
 
   //method to retrieve user by id
-  async findOne(userId: string): Promise<any>{
+  async findOne(userId: string): Promise<any> {
     const user = await this.userRepository.findOne({
-      where: {id:userId},
+      where: { id: userId },
     });
 
-    if(!user){
-      throw new NotFoundException('User Not Found')
+    if (!user) {
+      throw new NotFoundException('User Not Found');
     }
 
     //removes passwordhash from response for security
-    const {passwordHash, ...result} = user;
+    const { passwordHash, ...result } = user;
     return result;
   }
 }

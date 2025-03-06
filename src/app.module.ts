@@ -7,8 +7,8 @@ import { UsersModule } from './user/user.module';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
 import { ConfigModule } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
 import { AuthModule } from './auth/auth.module';
+import { JwtModule } from './jwt/jwt.module';
 
 @Module({
   imports: [
@@ -16,6 +16,7 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: '.env',
     }),
     JwtModule,
     AuthModule,
