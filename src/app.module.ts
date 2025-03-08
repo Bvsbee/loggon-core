@@ -6,12 +6,25 @@ import { databaseConfig } from './database.config';
 import { UsersModule } from './user/user.module';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { JwtModule } from './jwt/jwt.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(databaseConfig), UsersModule],
-  controllers: [AppController, UserController],
-  providers: [AppService, UserService],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRoot(databaseConfig),
+    UsersModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    JwtModule,
+    AuthModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
-
-//Monkey Brain prevented me from pushing/pulling, my bad mike lol
