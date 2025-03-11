@@ -23,14 +23,14 @@ export class AuthService {
         where: {email}
     });
 
-    if(!user || !(await bcrypt.compare(password, user.passwordHash))) {
+    if(!user || (await bcrypt.compare(password, user.passwordHash!))) { //Added ! to the comparison function
         throw new UnauthorizedException(' Invalid Credentials!')
     }
 
     const token = this.jwtService.sign({ 
         userId: user.id,
         email: user.email 
-      });
+      });      
 
       return {
         userId: user.id,
