@@ -1,21 +1,26 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
+export const Roles = { 
+  Buyer: 'Buyer',
+  Admin: 'Admin'
+}
+
 @Entity()
 export class User {
   @PrimaryColumn('uuid')
   id: string;
 
-  @Column()
-  firstName: string;
+  @Column({type: 'varchar', nullable: true})
+  firstName: string | null;
 
-  @Column()
-  lastName: string;
+  @Column({type: 'varchar', nullable: true})
+  lastName: string | null; 
 
-  @Column()
-  email: string;
+  @Column({type: 'varchar', nullable: true})
+  email: string | null;
 
-  @Column()
-  passwordHash: string;
+  @Column({type: 'varchar', nullable: true})
+  passwordHash: string | null; 
 
   @Column()
   isAdmin: boolean;
@@ -25,4 +30,6 @@ export class User {
 
   @Column()
   updatedAt: Date;
+
+
 }
