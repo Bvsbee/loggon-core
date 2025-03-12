@@ -23,7 +23,7 @@ export class AuthService {
         where: {email}
     });
 
-    if(!user || !(await bcrypt.compare(password, user.passwordHash ?? ''))) {
+    if(!user || !(await bcrypt.compare(password, user.passwordHash ?? ' '))) {
         throw new UnauthorizedException(' Invalid Credentials!')
     }
 
