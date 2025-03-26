@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn, ManyToMany} from 'typeorm';
+import { Category } from 'src/category/category.entity';
+import { Order } from 'src/order/order.entity';
 
 @Entity()
 export class Product {
@@ -8,7 +10,7 @@ export class Product {
   @Column()
   productName: string;
 
-  @Column()
+  @Column("longtext")
   productDescription: string;
 
   @Column()
@@ -28,4 +30,11 @@ export class Product {
 
   @Column()
   updatedAt: Date;
-}
+
+  @Column()
+  deletedAt: Date;
+
+
+  @ManyToMany(() => Order, order => order.products)
+  orders: Order[];
+  }

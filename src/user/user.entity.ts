@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn ,OneToMany} from 'typeorm';
+import { Order } from 'src/order/order.entity';
 
 export const Roles = { 
   Buyer: 'Buyer',
@@ -31,5 +32,7 @@ export class User {
   @Column()
   updatedAt: Date;
 
+  @OneToMany(() => Order, order => order.user)
+  orders: Order[];
 
 }
