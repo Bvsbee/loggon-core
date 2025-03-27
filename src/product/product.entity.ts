@@ -1,32 +1,50 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
+import { Category } from 'src/category/entities/category.entity';
+import { Review } from 'src/Reviews/review.entity';
+// import { OrderItem } from '../order/order-item.entity';
 
 @Entity()
 export class Product {
-  @PrimaryColumn('prid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column() 
-  productName: string;
-
   @Column()
-  productDescription: string;
+  name: string;
 
-  @Column()
-  productType: string
+  @ManyToOne(() => Category, (category) => category.products, {
+    nullable: false,
+  })
+  category: Category;
 
-  @Column()
-  productDimensions: string 
+  @Column({ type: 'int', default: 0 })
+  quantity: number;
 
-  @Column()
-  productCost: number; 
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  price: number;
 
-  @Column()
-  productQuantity: number;
+  @Column({ nullable: true })
+  image: string; // URL or path to the image
 
-  @Column()
+  @Column({ type: 'text', nullable: true })
+  description: string;
+
+  // @OneToMany(() => Review, (review) => review.product)
+  // reviews: Review[];
+
+  // @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
+  // orderItems: OrderItem[];
+
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column()
+  @UpdateDateColumn()
   updatedAt: Date;
-
-  }
+}

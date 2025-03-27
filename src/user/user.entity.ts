@@ -1,35 +1,51 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+// import { Order } from '../order/order.entity';
+// import { Review } from '../review/review.entity';
 
-export const Roles = { 
+export const Roles = {
   Buyer: 'Buyer',
-  Admin: 'Admin'
-}
+  Admin: 'Admin',
+};
 
 @Entity()
 export class User {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({type: 'varchar', nullable: true})
+  @Column({ type: 'varchar', nullable: true })
   firstName: string | null;
 
-  @Column({type: 'varchar', nullable: true})
-  lastName: string | null; 
+  @Column({ type: 'varchar', nullable: true })
+  lastName: string | null;
 
-  @Column({type: 'varchar', nullable: true})
-  email: string | null;
-
-  @Column({type: 'varchar', nullable: true})
-  passwordHash: string | null; 
+  @Column({ type: 'varchar', unique: true })
+  email: string;
 
   @Column()
+  passwordHash: string;
+
+  @Column({ type: 'enum', enum: Roles, default: Roles.Buyer })
+  role: string; // Role can be Buyer or Admin
+
+  @Column({ default: false })
   isAdmin: boolean;
 
-  @Column()
+  // @OneToMany(() => Order, (order) => order.user)
+  // orders: Order[]; // A user can have multiple orders
+
+  // @OneToMany(() => Review, (review) => review.user)
+  // reviews: Review[]; // A user can leave multiple reviews
+
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column()
+  @UpdateDateColumn()
   updatedAt: Date;
-
-
 }
