@@ -10,23 +10,21 @@ export class Review {
   @Column()
   userId: string;
 
-  @ManyToOne(() => Product)
+  @ManyToOne(() => Product, (product) => product.reviews)
   product: Product;
-  
-  @Column({type: 'varchar'})
+
+  @Column({ type: 'varchar' })
   productId: string;
 
   @ManyToOne(() => User)
-  user: User; 
+  user: User;
 
-  @Column({type: 'int'})
-  rating: number; 
+  @Column({ type: 'int' })
+  rating: number;
 
   @Column()
   createdAt: Date;
 
   @Column()
   updatedAt: Date;
-
-
 }

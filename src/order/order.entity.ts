@@ -1,36 +1,60 @@
-//Will containg order entity details 
+//Will containg order entity details
 //OnetoMany One or may have several products
 //Bidirectional relationship with product entity
-
-import { Entity, Column, PrimaryColumn, ManyToMany, ManyToOne,JoinTable } from 'typeorm';
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  OneToMany,
+} from 'typeorm';
 import { User } from 'src/user/user.entity';
 import { Product } from 'src/product/product.entity';
 
 @Entity()
 export class Order {
-  @PrimaryColumn({ generated: "uuid" })
-  order_id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column()
+  @ManyToOne(() => User, (user) => user.orders, { onDelete: 'CASCADE' })
+  user: User;
+
+  @Column('decimal', { precision: 10, scale: 2 })
+  subtotal: number;
+
+  @Column('decimal', { precision: 10, scale: 2 })
+  tax: number;
+
+  @Column('decimal', { precision: 10, scale: 2 })
+  shipping: number;
+
+  @Column('decimal', { precision: 10, scale: 2 })
   total: number;
 
   @Column()
-  ordered_on: Date
+  createdAt: Date;
 
   @Column()
-  created_on: Date
+  updatedAt: Date;
 
-  @Column()
-  updated_on: Date
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { cascade: true })
+  orderItems: OrderItem[];
+}
 
-  @Column({ nullable: true })
-  deleted_on: Date;
+@Entity()
+export class OrderItem {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @ManyToMany(() => Product)
-  @JoinTable()
-  products: Product[];
+  @ManyToOne(() => Order, (order) => order.orderItems, { onDelete: 'CASCADE' })
+  order: Order;
 
-  @ManyToOne(() => User)
-  //@JoinColumn({ name: 'id' })
-  user: User;
+  @ManyToOne(() => Product, { eager: true })
+  product: Product;
+
+  @Column({ type: 'int' })
+  quantity: number;
+
+  @Column('decimal', { precision: 10, scale: 2 })
+  price: number;
 }

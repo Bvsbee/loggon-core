@@ -1,3 +1,6 @@
+import { Cart } from 'src/cart/cart.entity';
+import { Order } from 'src/order/order.entity';
+import { Review } from 'src/Reviews/review.entity';
 import {
   Column,
   Entity,
@@ -37,11 +40,14 @@ export class User {
   @Column({ default: false })
   isAdmin: boolean;
 
-  // @OneToMany(() => Order, (order) => order.user)
-  // orders: Order[]; // A user can have multiple orders
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[]; // A user can have multiple orders
 
-  // @OneToMany(() => Review, (review) => review.user)
-  // reviews: Review[]; // A user can leave multiple reviews
+  @OneToMany(() => Review, (review) => review.user)
+  reviews: Review[]; // A user can leave multiple reviews
+
+  @OneToMany(() => Cart, (cart) => cart.user)
+  cart: Cart[];
 
   @CreateDateColumn()
   createdAt: Date;

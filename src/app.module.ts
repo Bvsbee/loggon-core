@@ -10,6 +10,9 @@ import { JwtModule } from './jwt/jwt.module';
 import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
 import { CategorySeeder } from './seeds/category-seeder';
+import { CartModule } from './cart/cart.module';
+import { OrderModule } from './order/order.module';
+import { ReviewModule } from './Reviews/review.module';
 
 @Module({
   imports: [
@@ -24,6 +27,9 @@ import { CategorySeeder } from './seeds/category-seeder';
     AuthModule,
     CategoryModule,
     ProductModule,
+    CartModule,
+    OrderModule,
+    ReviewModule,
   ],
   controllers: [AppController],
   providers: [AppService, CategorySeeder],

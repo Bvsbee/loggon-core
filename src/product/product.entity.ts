@@ -8,6 +8,8 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Category } from 'src/category/entities/category.entity';
+import { CartItem } from 'src/cart/cart.entity';
+import { OrderItem } from 'src/order/order.entity';
 import { Review } from 'src/Reviews/review.entity';
 // import { OrderItem } from '../order/order-item.entity';
 
@@ -36,11 +38,14 @@ export class Product {
   @Column({ type: 'text', nullable: true })
   description: string;
 
-  // @OneToMany(() => Review, (review) => review.product)
-  // reviews: Review[];
+  @OneToMany(() => Review, (review) => review.product, { cascade: true })
+  reviews: Review[];
 
-  // @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
-  // orderItems: OrderItem[];
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
+  orderItems: OrderItem[];
+
+  @OneToMany(() => CartItem, (cartItem) => cartItem.product)
+  cartItems: [];
 
   @CreateDateColumn()
   createdAt: Date;
