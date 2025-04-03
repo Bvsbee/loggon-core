@@ -38,6 +38,9 @@ export class Product {
   @Column({ type: 'text', nullable: true })
   description: string;
 
+  @Column()
+  dimensions: string;
+
   @OneToMany(() => Review, (review) => review.product, { cascade: true })
   reviews: Review[];
 

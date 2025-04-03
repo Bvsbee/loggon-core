@@ -16,6 +16,10 @@ export class CreateProductDto {
   @Min(0)
   price: number;
 
+  @IsString()
+  @IsOptional()
+  dimensions: string;
+
   @IsOptional()
   @IsString()
   description?: string;
