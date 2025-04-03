@@ -32,7 +32,7 @@ export class ProductController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   async update(
     @Param('id') id: string,
     @Body() updateProductDto: UpdateProductDto,
@@ -41,7 +41,7 @@ export class ProductController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   async remove(@Param('id') id: string) {
     return await this.productService.remove(id);
   }
