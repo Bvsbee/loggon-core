@@ -4,6 +4,9 @@ export class CreateProductDto {
   @IsString()
   name: string;
 
+  @IsString()
+  species: string;
+
   @IsOptional()
   @IsString()
   categoryId?: string; // ID from the Category table
