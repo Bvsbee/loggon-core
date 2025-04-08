@@ -56,4 +56,3 @@ export class AuthService {
     return user;
   }
 }
->>>>>>> 00595a23f0a45bd404ac62f48b09d5245c1019b5
