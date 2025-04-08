@@ -6,7 +6,7 @@ import { Product } from './product/product.entity';
 import { Order, OrderItem } from './order/order.entity';
 import { Cart, CartItem } from './cart/cart.entity';
 import { Review } from './Reviews/review.entity';
-//import { Product } from './product/product.entity';
+
 
 ConfigModule.forRoot();
 
