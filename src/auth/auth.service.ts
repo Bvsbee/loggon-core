@@ -9,6 +9,7 @@ import { User } from '../user/user.entity';
 
 @Injectable()
 export class AuthService {
+<<<<<<< HEAD
     constructor(
         @InjectRepository(User)
         private readonly userRespository: Repository<User>,
@@ -53,3 +54,52 @@ async validateUser(userId: string): Promise<any> {
 }
 }
 
+=======
+  constructor(
+    @InjectRepository(User)
+    private readonly userRespository: Repository<User>,
+    private readonly jwtService: JwtService,
+  ) {}
+
+  //login method which authenticas a user and assigns jwt token
+  async login(loginDto: LoginDto): Promise<{ userId: string; token: string }> {
+    const { email, password } = loginDto;
+
+    const user = await this.userRespository.findOne({
+      where: { email },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException(' Invalid Email Credentials!');
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.passwordHash!);
+    if (!isPasswordValid) {
+      throw new UnauthorizedException(' Invalid Password Credentials!');
+    }
+
+    const token = this.jwtService.sign({
+      userId: user.id,
+      email: user.email,
+    });
+
+    return {
+      userId: user.id,
+      token,
+    };
+  }
+
+  //verifies if a user exists by ID
+  async validateUser(userId: string): Promise<any> {
+    const user = await this.userRespository.findOne({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('User Not Found');
+    }
+
+    return user;
+  }
+}
+>>>>>>> 00595a23f0a45bd404ac62f48b09d5245c1019b5

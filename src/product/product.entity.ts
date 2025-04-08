@@ -1,40 +1,61 @@
-import { Column, Entity, PrimaryColumn, ManyToMany} from 'typeorm';
-import { Category } from 'src/category/category.entity';
-import { Order } from 'src/order/order.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
+import { Category } from 'src/category/entities/category.entity';
+import { CartItem } from 'src/cart/cart.entity';
+import { OrderItem } from 'src/order/order.entity';
+import { Review } from 'src/Reviews/review.entity';
+// import { OrderItem } from '../order/order-item.entity';
 
 @Entity()
 export class Product {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  productName: string;
-
-  @Column("longtext")
-  productDescription: string;
+  name: string;
 
   @Column()
-  productType: string;
+  species: string;
+
+  @ManyToOne(() => Category, (category) => category.products, {
+    nullable: false,
+  })
+  category: Category;
+
+  @Column({ type: 'int', default: 0 })
+  quantity: number;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  price: number;
+
+  @Column({ nullable: true })
+  image: string; // URL or path to the image
+
+  @Column({ type: 'text', nullable: true })
+  description: string;
 
   @Column()
-  productDimensions: string;
+  dimensions: string;
 
-  @Column()
-  productCost: number;
+  @OneToMany(() => Review, (review) => review.product, { cascade: true })
+  reviews: Review[];
 
-  @Column()
-  productQuantity: number;
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
+  orderItems: OrderItem[];
 
-  @Column()
+  @OneToMany(() => CartItem, (cartItem) => cartItem.product)
+  cartItems: [];
+
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column()
+  @UpdateDateColumn()
   updatedAt: Date;
-
-  @Column()
-  deletedAt: Date;
-
-
-  @ManyToMany(() => Order, order => order.products)
-  orders: Order[];
-  }
+}

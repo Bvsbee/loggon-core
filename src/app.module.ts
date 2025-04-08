@@ -4,27 +4,34 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { databaseConfig } from './database.config';
 import { UsersModule } from './user/user.module';
-import { UserController } from './user/user.controller';
-import { UserService } from './user/user.service';
+import { CategoryModule } from './category/category.module';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './auth/auth.module';
 import { JwtModule } from './jwt/jwt.module';
+import { AuthModule } from './auth/auth.module';
+import { ProductModule } from './product/product.module';
+import { CategorySeeder } from './seeds/category-seeder';
+import { CartModule } from './cart/cart.module';
+import { OrderModule } from './order/order.module';
+import { ReviewModule } from './Reviews/review.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
     TypeOrmModule.forRoot(databaseConfig),
-    UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
     }),
+    UsersModule,
+    CategoryModule,
     JwtModule,
     AuthModule,
+    CategoryModule,
+    ProductModule,
+    CartModule,
+    OrderModule,
+    ReviewModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, CategorySeeder],
 })
 export class AppModule {}
