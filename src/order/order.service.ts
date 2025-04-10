@@ -9,13 +9,22 @@ import { User } from '../user/user.entity';
 export class OrderService {
   constructor(
     @InjectRepository(Order) private orderRepo: Repository<Order>,
+    @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(OrderItem) private orderItemRepo: Repository<OrderItem>,
     private cartService: CartService,
   ) {}
 
-  async checkout(user: User) {
-    const cart = await this.cartService.getCart(user);
+  async checkout(userId: string) {
+    const cart = await this.cartService.getCart(userId);
     if (!cart || cart.items.length === 0) throw new Error('Cart is empty');
+
+    const user = await this.userRepo.findOne({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new Error('User not found!');
+    }
 
     const order = this.orderRepo.create({
       user,

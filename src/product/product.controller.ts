@@ -13,6 +13,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { JwtAuthGuard } from 'src/jwt/jwt-auth.guard';
 import { CreateProductDto } from './dto/createProduct-dto';
 @Controller('product')
+// @UseGuards(JwtAuthGuard)
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
@@ -41,7 +42,7 @@ export class ProductController {
   }
 
   @Delete(':id')
-  //@UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   async remove(@Param('id') id: string) {
     return await this.productService.remove(id);
   }

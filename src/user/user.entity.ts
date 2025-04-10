@@ -8,6 +8,7 @@ import {
   OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
 } from 'typeorm';
 // import { Order } from '../order/order.entity';
 // import { Review } from '../review/review.entity';
@@ -46,8 +47,8 @@ export class User {
   @OneToMany(() => Review, (review) => review.user)
   reviews: Review[]; // A user can leave multiple reviews
 
-  @OneToMany(() => Cart, (cart) => cart.user)
-  cart: Cart[];
+  @OneToOne(() => Cart, (cart) => cart.user, { cascade: true })
+  cart: Cart;
 
   @CreateDateColumn()
   createdAt: Date;
