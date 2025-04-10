@@ -4,7 +4,7 @@ import {AWSService} from './AWS.service';
 
 
 @Module({
-  imports: [],
+  imports: [AWSService],
   controllers: [AWSController],
   providers: [AWSController],
 })

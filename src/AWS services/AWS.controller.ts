@@ -3,6 +3,8 @@ import {
     Post,
     UploadedFile,
     UseInterceptors,
+    Param,
+    Get,
   } from '@nestjs/common';
   import { FileInterceptor } from '@nestjs/platform-express';
   import { AWSService } from './AWS.service';
@@ -10,22 +12,24 @@ import {
   
   @Controller()
   export class AWSController {
-    constructor(private readonly appService: AWSService) {}
+    constructor(private readonly awsService: AWSService) {}
   
     @Post('upload')
     @UseInterceptors(FileInterceptor('file'))
     uploadFile(@UploadedFile() file: Express.Multer.File) {
-      return this.appService.uploadFile(file);
+      return this.awsService.uploadFile(file);
     }
 
-    /*@Get(':key')
- async getFileUrl(@Param('key') key: string) {
-    return this.appService.getFileUrl(key);
-  }*/
+   @Get(':key')
+   getFileUrl(@Param('key') key: string) {
+      const image_url = this.awsService.getFileUrl(key);
+      return image_url;
+    }
 
-    /*@Get('/signed-url/:key')
-  async getSingedUrl(@Param('key') key: string) {
-    return this.dmsService.getPresignedSignedUrl(key);
-  }*/
+    @Get('/signed-url/:key')
+    getSignedUrl(@Param('key') key: string) {
+      const signed_url = this.awsService.getPresignedSignedUrl(key);
+      return signed_url;
+    }
     
   }

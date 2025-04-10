@@ -1,6 +1,13 @@
-import { Injectable, Req, Res } from '@nestjs/common';
+import { Injectable, Req, Res, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as AWS from 'aws-sdk';
+import {
+  PutObjectCommand,
+  DeleteObjectCommand,
+  GetObjectCommand,
+} from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+
 
 @Injectable()
 export class AWSService {
@@ -44,16 +51,40 @@ export class AWSService {
     }
   }
 
-  /*this.s3.getObject(
-    { Bucket: this.AWS_S3_BUCKET, Key: this.configService.get('S3_SECRET_ACCESS_KEY') || '' },
-    function (error, data) {
-      if (error != null) {
-        alert("Failed to retrieve an object: " + error);
-      } else {
-        alert("Loaded " + data.ContentLength + " bytes");
-        // do something with data.Body
-      }
-    }
+  async getFileUrl(key: string) {
+    return { url: `https://${this.AWS_S3_BUCKET}.s3.amazonaws.com/${key}` };
+  }
 
-  );*/
+  async getPresignedSignedUrl(key: string) {
+    const parameters = {
+      Bucket: this.AWS_S3_BUCKET, 
+      Key: 'AKIAQ4NSBLMTMLZAJDG4',
+      expiresIn: 60 * 60 * 24 * 7, // 7 day
+    };
+    try {
+      
+      
+      
+      const url = this.s3.getSignedUrl('getObject', parameters);
+      return { url };
+        
+    } catch (error) {
+      
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async deleteFile(key: string) {
+    const param = { 
+      Bucket: this.AWS_S3_BUCKET,
+      Key: key 
+    }
+    try {
+      await this.s3.deleteObject(param).promise();
+      return { message: 'File deleted successfully' };
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
 }
