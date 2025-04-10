@@ -10,6 +10,7 @@ export class CartService {
   constructor(
     @InjectRepository(Cart) private cartRepo: Repository<Cart>,
     @InjectRepository(CartItem) private cartItemRepo: Repository<CartItem>,
+    @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(Product) private productRepo: Repository<Product>,
   ) {}
 
@@ -19,11 +20,6 @@ export class CartService {
       where: { user: { id: userId } }, // Searching by userId in the related User entity
       relations: ['items', 'items.product'],
     });
-
-    if (!cart) {
-      // Handle case where no cart exists
-      throw new Error('Cart not found');
-    }
 
     console.log('Cart:', cart);
 
