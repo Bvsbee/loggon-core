@@ -21,8 +21,6 @@ export class CartService {
       relations: ['items', 'items.product'],
     });
 
-    console.log('Cart:', cart);
-
     return cart;
   }
 
@@ -42,6 +40,8 @@ export class CartService {
       });
       cart = await this.cartRepo.save(cart);
     }
+
+    console.log('ProductID: ', { productId });
 
     const product = await this.productRepo.findOne({
       where: { id: productId },

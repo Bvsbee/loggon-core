@@ -13,6 +13,7 @@ import { CategorySeeder } from './seeds/category-seeder';
 import { CartModule } from './cart/cart.module';
 import { OrderModule } from './order/order.module';
 import { ReviewModule } from './Reviews/review.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ReviewModule } from './Reviews/review.module';
     CartModule,
     OrderModule,
     ReviewModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService, CategorySeeder],

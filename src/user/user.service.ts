@@ -84,4 +84,13 @@ export class UserService {
     const { passwordHash, ...result } = user;
     return result;
   }
+
+
+  //method to find all users
+  async findAll(): Promise<User[]> {
+    return this.userRepository.find()
+  }
 }
+
+
+

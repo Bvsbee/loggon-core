@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { User } from 'src/user/user.entity';
 import { CartService } from './cart.service';
+import { AddToCartDto } from './create-cart.dto';
 
 @Controller('cart')
 export class CartController {
@@ -17,7 +18,6 @@ export class CartController {
   // Retrieves a user's cart by passing a User object in the request body.
   @Get()
   getCart(@Query('userId') userId: string) {
-    console.log('User Id', userId);
     return this.cartService.getCart(userId);
   }
 
@@ -26,19 +26,20 @@ export class CartController {
   @Post()
   addToCart(
     @Body()
-    body: {
-      user: User;
-      productId: string;
-      quantity: number;
-    },
+    body: AddToCartDto,
   ) {
-    const { user, productId, quantity } = body;
-    return this.cartService.addToCart(user, productId, quantity);
+    const { userId, productId, quantity } = body;
+
+    console.log('Body: ', { body });
+    return this.cartService.addToCart(userId, productId, quantity);
   }
 
   // Removes an individual cart item by its id.
   @Delete(':id')
   removeItem(@Param('id') id: string) {
+    
+    console.log('deleteID: ', { id });
+
     return this.cartService.removeItem(id);
   }
 
