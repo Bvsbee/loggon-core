@@ -14,13 +14,18 @@ import { CartModule } from './cart/cart.module';
 import { OrderModule } from './order/order.module';
 import { ReviewModule } from './Reviews/review.module';
 import { AdminModule } from './admin/admin.module';
-
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
 @Module({
   imports: [
     TypeOrmModule.forRoot(databaseConfig),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: path.join(__dirname, '..', 'uploads'), // Folder where your images are stored
+      serveRoot: '/uploads', // URL path prefix to access the files
     }),
     UsersModule,
     CategoryModule,
