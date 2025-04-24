@@ -35,7 +35,7 @@ export class Product {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   price: number;
 
-  @Column({ nullable: true })
+  @Column('longtext', { nullable: true })
   image: string; // URL or path to the image
 
   @Column({ type: 'text', nullable: true })

@@ -67,6 +67,8 @@ export class CartService {
     return this.getCart(user.id); // return fresh copy with relations
   }
 
+  async cartCheckout() {}
+
   async removeItem(itemId: string) {
     return this.cartItemRepo.delete(itemId);
   }

@@ -34,6 +34,9 @@ export class ProductController {
           cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
         },
       }),
+      limits: {
+        fileSize: 5 * 1024 * 2024,
+      },
     }),
   )
   async create(

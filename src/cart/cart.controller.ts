@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
@@ -37,7 +38,6 @@ export class CartController {
   // Removes an individual cart item by its id.
   @Delete(':id')
   removeItem(@Param('id') id: string) {
-    
     console.log('deleteID: ', { id });
 
     return this.cartService.removeItem(id);
@@ -47,6 +47,11 @@ export class CartController {
   @Delete()
   clearCart(@Body() user: User) {
     return this.cartService.clearCart(user);
+  }
+
+  @Patch()
+  cartCheckout(@Param('itemId') itemId: number, @Body() quantity) {
+    return this.cartService.cartCheckout();
   }
 }
 CartService;
