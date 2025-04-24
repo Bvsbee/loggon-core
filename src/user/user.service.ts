@@ -5,6 +5,7 @@ import {
   Injectable,
   NotFoundException,
   Param,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
@@ -85,12 +86,24 @@ export class UserService {
     return result;
   }
 
+  async isAdmin(userId: string): Promise<any> {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User Not Found');
+    }
+
+    if (!user.isAdmin) {
+      throw new UnauthorizedException('User is not an admin');
+    }
+
+    return user;
+  }
 
   //method to find all users
   async findAll(): Promise<User[]> {
-    return this.userRepository.find()
+    return this.userRepository.find();
   }
 }
-
-
-

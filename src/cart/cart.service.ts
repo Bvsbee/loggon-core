@@ -67,7 +67,42 @@ export class CartService {
     return this.getCart(user.id); // return fresh copy with relations
   }
 
-  async cartCheckout() {}
+  async cartCheckout(user: User): Promise<string> {
+    const cart = await this.getCart(user.id);
+
+    if (!cart || cart.items.length === 0) {
+      throw new Error('Cart is empty or does not exist');
+    }
+
+    for (const item of cart.items) {
+      const product = await this.productRepo.findOne({
+        where: { id: item.product.id },
+      });
+
+      if (!product) {
+        throw new Error(`Product with ID ${item.product.id} not found`);
+      }
+
+      if (product.quantity < item.quantity) {
+        throw new Error(`Not enough stock for product ${product.name}`);
+      }
+
+      // Subtract quantity from product stock
+      product.quantity -= item.quantity;
+      await this.productRepo.save(product);
+    }
+
+    // Increment user's total orders
+    user.totalOrders = (user.totalOrders ?? 0) + 1;
+    await this.userRepo.save(user);
+
+    // Empty the cart after checkout
+    cart.items = [];
+    cart.updatedAt = new Date();
+    await this.cartRepo.save(cart);
+
+    return 'Checkout completed successfully';
+  }
 
   async removeItem(itemId: string) {
     return this.cartItemRepo.delete(itemId);

@@ -50,8 +50,8 @@ export class CartController {
   }
 
   @Patch()
-  cartCheckout(@Param('itemId') itemId: number, @Body() quantity) {
-    return this.cartService.cartCheckout();
+  cartCheckout(user: User) {
+    return this.cartService.cartCheckout(user);
   }
 }
 CartService;

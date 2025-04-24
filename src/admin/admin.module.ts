@@ -9,10 +9,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/user/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { CategoryModule } from 'src/category/category.module';
+import { Product } from 'src/product/product.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Product]),
     ProductModule,
     CategoryModule,
     UsersModule,

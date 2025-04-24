@@ -50,6 +50,9 @@ export class User {
   @OneToOne(() => Cart, (cart) => cart.user, { cascade: true })
   cart: Cart;
 
+  @Column({ default: 0 })
+  totalOrders: number;
+
   @CreateDateColumn()
   createdAt: Date;
 
