@@ -49,9 +49,9 @@ export class CartController {
     return this.cartService.clearCart(user);
   }
 
-  @Patch()
-  cartCheckout(user: User) {
-    return this.cartService.cartCheckout(user);
+  @Post('orderComplete')
+  cartCheckout(@Query('userId') userId: string) {
+    return this.cartService.cartCheckout(userId);
   }
 }
 CartService;

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cart, CartItem } from './cart.entity';
 import { Product } from 'src/product/product.entity';
@@ -67,8 +67,14 @@ export class CartService {
     return this.getCart(user.id); // return fresh copy with relations
   }
 
-  async cartCheckout(user: User): Promise<string> {
-    const cart = await this.getCart(user.id);
+  async cartCheckout(userId: string): Promise<string> {
+    const cart = await this.getCart(userId);
+
+    const user = await this.userRepo.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw new NotFoundException('User was not found');
+    }
 
     if (!cart || cart.items.length === 0) {
       throw new Error('Cart is empty or does not exist');
@@ -82,6 +88,8 @@ export class CartService {
       if (!product) {
         throw new Error(`Product with ID ${item.product.id} not found`);
       }
+
+      console.log({ cart.items });
 
       if (product.quantity < item.quantity) {
         throw new Error(`Not enough stock for product ${product.name}`);
