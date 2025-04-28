@@ -9,7 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from './jwt/jwt.module';
 import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
-import { CategorySeeder } from './seeds/category-seeder';
+// import { CategorySeeder } from './seeds/category-seeder';
 import { CartModule } from './cart/cart.module';
 import { OrderModule } from './order/order.module';
 import { ReviewModule } from './Reviews/review.module';
@@ -39,6 +39,6 @@ import * as path from 'path';
     AdminModule,
   ],
   controllers: [AppController],
-  providers: [AppService, CategorySeeder],
+  providers: [AppService],
 })
 export class AppModule {}

@@ -89,7 +89,7 @@ export class CartService {
         throw new Error(`Product with ID ${item.product.id} not found`);
       }
 
-      console.log({ cart.items });
+      // console.log({ cart.items });
 
       if (product.quantity < item.quantity) {
         throw new Error(`Not enough stock for product ${product.name}`);
