@@ -55,7 +55,7 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Order, order => order.user)
-  orders: Order[];
+  //@OneToMany(() => Order, order => order.user)
+  //orders: Order[];
 
 }
