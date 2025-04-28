@@ -3,8 +3,10 @@ import { User } from 'src/user/user.entity';
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -13,7 +15,8 @@ export class Cart {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => User, (user) => user.cart, { onDelete: 'CASCADE' })
+  @OneToOne(() => User, (user) => user.cart, { onDelete: 'CASCADE' })
+  @JoinColumn() // Important for owning side
   user: User;
 
   @OneToMany(() => CartItem, (cartItem) => cartItem.cart, { cascade: true })

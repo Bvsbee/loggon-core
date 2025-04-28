@@ -1,5 +1,5 @@
 import { IsString, IsInt, IsNumber, IsOptional, Min } from 'class-validator';
-
+import { Express } from 'express';
 export class CreateProductDto {
   @IsString()
   name: string;

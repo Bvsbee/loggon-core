@@ -6,34 +6,52 @@ import {
   Param,
   Patch,
   Post,
-  Request,
-  UseGuards,
+  Query,
 } from '@nestjs/common';
+import { User } from 'src/user/user.entity';
 import { CartService } from './cart.service';
-import { JwtAuthGuard } from 'src/jwt/jwt-auth.guard';
+import { AddToCartDto } from './create-cart.dto';
 
 @Controller('cart')
-@UseGuards(JwtAuthGuard)
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 
+  // Retrieves a user's cart by passing a User object in the request body.
   @Get()
-  getCart(@Request() req) {
-    return this.cartService.getCart(req.user);
+  getCart(@Query('userId') userId: string) {
+    return this.cartService.getCart(userId);
   }
 
+  // Adds a product to the user's cart.
+  // Expects a body containing the user, productId, and quantity.
   @Post()
-  addToCart(@Request() req, @Body() body) {
-    return this.cartService.addToCart(req.user, body.productId, body.quantity);
+  addToCart(
+    @Body()
+    body: AddToCartDto,
+  ) {
+    const { userId, productId, quantity } = body;
+
+    console.log('Body: ', { body });
+    return this.cartService.addToCart(userId, productId, quantity);
   }
 
+  // Removes an individual cart item by its id.
   @Delete(':id')
   removeItem(@Param('id') id: string) {
+    console.log('deleteID: ', { id });
+
     return this.cartService.removeItem(id);
   }
 
+  // Clears a user's cart by passing a User object in the request body.
   @Delete()
-  clearCart(@Request() req) {
-    return this.cartService.clearCart(req.user);
+  clearCart(@Body() user: User) {
+    return this.cartService.clearCart(user);
+  }
+
+  @Post('orderComplete')
+  cartCheckout(@Query('userId') userId: string) {
+    return this.cartService.cartCheckout(userId);
   }
 }
+CartService;
