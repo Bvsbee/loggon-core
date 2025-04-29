@@ -7,10 +7,16 @@ import {
   GetObjectCommand,
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ProductImage } from 'src/product/product.image.entity';
 
 
 @Injectable()
 export class AWSService {
+  constructor(@InjectRepository(ProductImage)
+  private ProductImageRepository: Repository<ProductImage>,){}
+
   private readonly configService: ConfigService
   AWS_S3_BUCKET = 'loggonbucket';
   s3 = new AWS.S3({
@@ -86,5 +92,11 @@ export class AWSService {
       throw new InternalServerErrorException(error);
     }
   }
+
+  async findAll(): Promise<ProductImage[]>{//Must be tailored to find all images under a given species 
+    return this.ProductImageRepository.find();
+  }
+
+
 
 }

@@ -7,7 +7,8 @@ import {
     Get,
   } from '@nestjs/common';
   import { FileInterceptor } from '@nestjs/platform-express';
-  import { AWSService } from './AWS.service';
+  import { AWSService } from './AWS.service'; 
+  import { ProductImage } from 'src/product/product.image.entity';
   
   
   @Controller()
@@ -30,6 +31,11 @@ import {
     getSignedUrl(@Param('key') key: string) {
       const signed_url = this.awsService.getPresignedSignedUrl(key);
       return signed_url;
+    }
+
+    @Get('images')// Must be tailored for each species of wood available on the site 
+    findAll(): Promise<ProductImage[]>{
+      return this.awsService.findAll();
     }
     
   }

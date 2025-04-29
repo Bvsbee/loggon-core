@@ -1,7 +1,7 @@
 import { Column, PrimaryColumn, Entity} from 'typeorm';
 
 Entity()
-export class productImage {
+export class ProductImage {
     @PrimaryColumn('primage')
     id: number
 
@@ -9,9 +9,11 @@ export class productImage {
     name: string 
 
     @Column()
-    datacreated: Date;
+    url: string;
 
     @Column()
-    dateUpdated: Date;
+    uploadAt: Date;
+
+    
 
 }
