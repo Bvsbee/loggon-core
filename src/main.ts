@@ -23,7 +23,8 @@ async function bootstrap() {
     cors({
       allowedHeaders: ['Content-Type', 'Authorization'],
       origin: 'http://localhost:5173',
-      methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed met
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allowed met
+      credentials: true,
     }),
   );
   app.enableCors();
