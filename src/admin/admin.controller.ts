@@ -1,20 +1,10 @@
-import {
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus, Param } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { UserService } from 'src/user/user.service';
 
 @Controller('admin')
 export class AdminController {
-  constructor(
-    private readonly adminService: AdminService,
-    private readonly userService: UserService,
-  ) {}
+  constructor(private readonly adminService: AdminService) {}
 
   @Get('summary')
   @HttpCode(HttpStatus.OK)
