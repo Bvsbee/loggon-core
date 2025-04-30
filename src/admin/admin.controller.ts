@@ -19,10 +19,6 @@ export class AdminController {
   @Get('summary')
   @HttpCode(HttpStatus.OK)
   async getDashboardSummary(@Param('userId') userId: string) {
-    if (!this.userService.isAdmin(userId)) {
-      return UnauthorizedException;
-    }
-
     return this.adminService.getDashboardSummary();
   }
 }
