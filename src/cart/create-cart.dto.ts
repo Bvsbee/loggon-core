@@ -1,9 +1,8 @@
-import { IsUUID, IsInt, Min } from 'class-validator';
-import { User } from 'src/user/user.entity';
+import { IsUUID, IsInt, Min, IsString } from 'class-validator';
 
 export class AddToCartDto {
-  @IsUUID()
-  userId: User;
+  @IsString()
+  userId: string;
 
   @IsUUID()
   productId: string;

@@ -25,15 +25,17 @@ export class CartService {
   }
 
   async addToCart(
-    user: User,
+    userId: string,
     productId: string,
     quantity: number,
   ): Promise<Cart | null> {
-    let cart = await this.getCart(user.id);
+    let cart = await this.getCart(userId);
+
+    console.log('User ID', userId);
 
     if (!cart) {
       cart = this.cartRepo.create({
-        user,
+        user: { id: userId },
         items: [],
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -64,7 +66,7 @@ export class CartService {
     cart.updatedAt = new Date();
     await this.cartRepo.save(cart);
 
-    return this.getCart(user.id); // return fresh copy with relations
+    return this.getCart(userId); // return fresh copy with relations
   }
 
   async cartCheckout(userId: string): Promise<string> {
