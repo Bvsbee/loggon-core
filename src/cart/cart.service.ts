@@ -31,8 +31,6 @@ export class CartService {
   ): Promise<Cart | null> {
     let cart = await this.getCart(userId);
 
-    console.log('User ID', userId);
-
     if (!cart) {
       cart = this.cartRepo.create({
         user: { id: userId },
@@ -42,8 +40,6 @@ export class CartService {
       });
       cart = await this.cartRepo.save(cart);
     }
-
-    console.log('ProductID: ', { productId });
 
     const product = await this.productRepo.findOne({
       where: { id: productId },
@@ -90,8 +86,6 @@ export class CartService {
       if (!product) {
         throw new Error(`Product with ID ${item.product.id} not found`);
       }
-
-      // console.log({ cart.items });
 
       if (product.quantity < item.quantity) {
         throw new Error(`Not enough stock for product ${product.name}`);

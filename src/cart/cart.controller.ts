@@ -31,15 +31,12 @@ export class CartController {
   ) {
     const { userId, productId, quantity } = body;
 
-    console.log('Body: ', { body });
     return this.cartService.addToCart(userId, productId, quantity);
   }
 
   // Removes an individual cart item by its id.
   @Delete(':id')
   removeItem(@Param('id') id: string) {
-    console.log('deleteID: ', { id });
-
     return this.cartService.removeItem(id);
   }
 
