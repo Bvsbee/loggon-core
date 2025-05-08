@@ -5,6 +5,7 @@ import {
   Column,
   OneToMany,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 Product;
 
@@ -18,4 +19,11 @@ export class Category {
 
   @OneToMany(() => Product, (product) => product.category)
   products: Product[];
+
+  @ManyToOne(() => Category, (category) => category.children, { nullable: true })
+  @JoinColumn()
+  parent: Category;
+
+  @OneToMany(() => Category, (category) => category.parent)
+  children: Category[];
 }
