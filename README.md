@@ -26,8 +26,14 @@ cd loggon-backend
 npm install
 
 # Update/Create .env with your database credentials
-
-# Update Database Config
+Open .env and update it with your local development settings:
+Example. 
+DB_HOST=localhost
+DB_PORT=3306
+DB_USERNAME=root
+DB_PASSWORD=yourpassword
+DB_DATABASE=loggon_dev
+PORT=3000
 
 # Start the development server
 npm run start:dev
