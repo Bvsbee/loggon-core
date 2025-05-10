@@ -13,3 +13,35 @@ Authentication and Authorization mechanisms.
 Data Validation using class-validator and class-transformer.
 
 Modular architecture for easy scalability.
+
+
+📦 Installation
+Ensure you have Node.js and MySQL installed.
+
+# Clone the repository
+git clone https://github.com/yourusername/loggon-backend.git
+cd loggon-backend
+
+# Install dependencies
+npm install
+
+# Update/Create .env with your database credentials
+
+# Update Database Config
+
+# Start the development server
+npm run start:dev
+
+
+# Technologies Used🛠️ 
+NestJS
+
+TypeORM
+
+MySQL
+
+TypeScript
+
+class-validator
+
+class-transformer
