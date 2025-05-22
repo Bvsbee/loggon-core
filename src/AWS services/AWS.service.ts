@@ -18,10 +18,10 @@ export class AWSService {
   private ProductImageRepository: Repository<ProductImage>,){}
 
   private readonly configService: ConfigService
-  AWS_S3_BUCKET = 'loggonbucket';
+  AWS_S3_BUCKET = 'Name of Bucket';
   s3 = new AWS.S3({
-    accessKeyId: 'AKIAQ4NSBLMTMLZAJDG4',
-    secretAccessKey: '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',
+    accessKeyId: 'Obtained from account page',
+    secretAccessKey: 'Obtained from account page'
   });
 
   async uploadFile(file) {
